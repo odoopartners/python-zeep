@@ -249,7 +249,12 @@ class Definition:
             port_type.resolve(self)
 
         for binding in self.bindings.values():
-            binding.resolve(self)
+            try:
+                binding.resolve(self)
+                print(self.imports)
+            except Exception as bind_error:
+                logger.debug("Skipping binding %s ", bind_error)
+                continue
 
         for service in self.services.values():
             service.resolve(self)
